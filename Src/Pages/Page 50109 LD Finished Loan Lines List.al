@@ -16,10 +16,15 @@ page 50109 "LD Finished Loan Lines List"
                 {
                     Caption = 'Uitleen Document Nummer';
                     ApplicationArea = all;
+                    LookupPageId = "LD Finished Loan Header List";
                 }
                 field(Itemnr; Itemnr)
                 {
                     Caption = 'Artikelnummer';
+                    ApplicationArea = all;
+                }
+                field(Titel; rec.ReturnItemDescription(Itemnr))
+                {
                     ApplicationArea = all;
                 }
                 field(serienummer; serienummer)

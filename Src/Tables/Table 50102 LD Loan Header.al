@@ -113,7 +113,6 @@ table 50102 "LD Loan Header"
         LoanLines.Reset();
         loanlines.SetRange(Loannr, rec.Loannr);
         if loanlines.FindSet() then begin
-            message('set gevonden');
             repeat
                 LoanLines.MoveToFinishedLoanLines(LoanLines);
                 LoanLines.Delete()

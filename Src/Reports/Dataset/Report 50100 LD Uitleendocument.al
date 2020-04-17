@@ -1,8 +1,8 @@
 report 50100 "LD Uitleendocument"
 {
     Caption = 'Uitleendocument';
-    DefaultLayout = Word;
-    WordLayout = 'Src/reports/Word/report 50100 LD Uitleendocument.docx';
+    DefaultLayout = RDLC;
+    RDLCLayout = 'Src/reports/RDLC/report 50100 LD Uitleendocument.RDL';
     UsageCategory = None;
     dataset
     {
@@ -43,6 +43,8 @@ report 50100 "LD Uitleendocument"
                 DataItemLink = Loannr = field(Loannr);
                 DataItemTableView = sorting(Loannr, Serienummer);
                 column(Itemnr; Itemnr)
+                { }
+                column(Title; "LD Loan Lines".ReturnItemDescription(Itemnr))
                 { }
                 column(serienummer; serienummer)
                 { }

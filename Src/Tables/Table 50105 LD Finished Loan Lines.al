@@ -63,4 +63,14 @@ table 50105 "LD Finished Loan Lines"
             exit(FinishedLoanheader.UitleenDatum);
     end;
 
+    Procedure ReturnItemDescription(Itemnr: Code[20]): Text
+    var
+        Item: Record Item;
+    begin
+        Item.Reset();
+        Item.SetRange("No.", Itemnr);
+        if Item.FindFirst() then
+            exit(Item.Description);
+    end;
+
 }

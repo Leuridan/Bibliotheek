@@ -6,6 +6,7 @@ page 50110 "LD Finished Loan Header List"
     UsageCategory = Lists;
     ApplicationArea = all;
     Editable = false;
+    CardPageId = "LD Finishded Loan Header";
     layout
     {
         area(Content)

@@ -84,4 +84,14 @@ table 50103 "LD Loan Lines"
         if Loanheader.FindFirst() then
             exit(Loanheader."Teruggave Datum");
     end;
+
+    Procedure ReturnItemDescription(Itemnr: Code[20]): Text
+    var
+        Item: Record Item;
+    begin
+        Item.Reset();
+        Item.SetRange("No.", Itemnr);
+        if Item.FindFirst() then
+            exit(Item.Description);
+    end;
 }

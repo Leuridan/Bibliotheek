@@ -15,6 +15,10 @@ page 50106 "LD Finished LoanLines ListPart"
                 {
                     ApplicationArea = all;
                 }
+                field(Titel; rec.ReturnItemDescription(Itemnr))
+                {
+                    ApplicationArea = all;
+                }
                 field(serienummer; serienummer)
                 {
                     ApplicationArea = all;

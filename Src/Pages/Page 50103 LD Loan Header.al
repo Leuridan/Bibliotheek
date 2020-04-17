@@ -57,6 +57,21 @@ page 50103 "LD Loan Header"
     {
         area(Processing)
         {
+            action(PrintReport)
+            {
+                Caption = 'Druk uitleendocument af';
+                Image = Print;
+                ApplicationArea = all;
+                Promoted = true;
+                PromotedCategory = Process;
+                PromotedIsBig = true;
+                PromotedOnly = true;
+                trigger OnAction()
+                begin
+                    Printdocument();
+                end;
+            }
+
             action(ProcessDocument)
             {
                 Caption = 'Sluit Uitleendocument af';
@@ -78,5 +93,13 @@ page 50103 "LD Loan Header"
                 end;
             }
         }
+
     }
+    local procedure PrintDocument()
+    var
+        Uitleendocument: Report "LD Uitleendocument";
+    begin
+        Uitleendocument.SetTableView(rec);
+        Uitleendocument.Run();
+    end;
 }
