@@ -56,4 +56,44 @@ table 50100 "LD Boek"
         if Item.FindFirst() then
             exit(Item.Description);
     end;
+
+    procedure Beschikbaar(): Integer
+    var
+        Item: Record Item;
+    begin
+        Item.Reset();
+        Item.SetRange(GTIN, ISBN);
+        if Item.FindFirst() then begin
+            Item.CalcFields(Inventory);
+            Item.CalcFields(Loaned);
+            exit(Item.Inventory - Item.Loaned);
+        end;
+    end;
+
+    local procedure GetItemNumber(): Code[20]
+    var
+        Item: Record Item;
+    begin
+        Item.Reset();
+        Item.SetRange(GTIN, ISBN);
+        if Item.FindFirst() then begin
+            exit(Item."No.");
+        end;
+    end;
+
+    procedure Locatie(): code[20]
+    var
+        BinContent: Record "Bin Content";
+        LocationCode: Code[10];
+        BinTypeCode: Code[10];
+    begin
+        BinContent.Reset();
+        LocationCode := 'BIB';
+        BinTypeCode := 'OPSLAG';
+        BinContent.SetRange("Item No.", GetItemNumber());
+        BinContent.SetRange("Location Code", LocationCode);
+        BinContent.SetRange("Bin Type Code", BinTypeCode);
+        if BinContent.FindFirst() then
+            exit(BinContent."Bin Code");
+    end;
 }

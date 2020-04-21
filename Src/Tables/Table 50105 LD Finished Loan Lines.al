@@ -9,6 +9,7 @@ table 50105 "LD Finished Loan Lines"
         {
             Caption = 'Uitleendocumentnummer';
             DataClassification = SystemMetadata;
+            TableRelation = "LD Finished Loan Header".Loannr;
         }
         field(2; Itemnr; Code[20])
         {

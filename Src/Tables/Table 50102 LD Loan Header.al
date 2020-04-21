@@ -113,16 +113,17 @@ table 50102 "LD Loan Header"
         LoanLines.Reset();
         loanlines.SetRange(Loannr, rec.Loannr);
         if loanlines.FindSet() then begin
-            repeat
-                LoanLines.MoveToFinishedLoanLines(LoanLines);
-                LoanLines.Delete()
-            until LoanLines.Next() = 0;
             FinishedLoanHeader.Reset();
             FinishedLoanHeader.Init();
             FinishedLoanHeader.TransferFields(Loanheader);
             FinishedLoanHeader.Insert();
             FinishedLoanHeader.Validate("Teruggave Datum", WorkDate());
             FinishedLoanHeader.Modify();
+            repeat
+                LoanLines.MoveToFinishedLoanLines(LoanLines);
+                LoanLines.Delete()
+            until LoanLines.Next() = 0;
+
         end;
     end;
 
