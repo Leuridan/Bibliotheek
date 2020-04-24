@@ -16,10 +16,10 @@ table 50102 "LD Loan Header"
             Caption = 'Klantnummer';
             DataClassification = SystemMetadata;
             TableRelation = customer."No.";
-            trigger OnValidate()
+            /*trigger OnValidate()
             begin
                 CheckAbbo();
-            end;
+            end;*/
         }
         field(3; "CustomerName"; Text[100])
         {
@@ -51,12 +51,25 @@ table 50102 "LD Loan Header"
         { }
     }
 
-    local procedure CheckAbbo()
+    local procedure CheckAbbo(customer: Record Customer)
     var
         Abonnement: Record "LD Abonnementen";
+        MessageText: Text;
     begin
         Abonnement.Reset();
+        Abonnement.SetRange(Customernr, Customer."No.");
+        if Abonnement.FindFirst() then begin
+            if Abonnement.einddatum < WorkDate() then
+                MessageText := 'Klant: ' + Format(customer.Name) + ' abonnement is vervallen wile je een abonnement verlengen?'
+            else
+                MessageText := 'Klant: ' + Format(Customer.Name) + ' abonnement zal vervallen voor het einde van de huurtermijn, wil je abonnement verlengen?';
+        end
+        else
+            MessageText := 'Klant: ' + Format(customer.Name) + ' abonnement bestaat niet wil je abonnement aanmaken?';
+        If Confirm(MessageText, true) then
+            CreateAbboOrder(Customer."No.");
     end;
+
 
     procedure CreateNew()
     var
@@ -65,7 +78,6 @@ table 50102 "LD Loan Header"
         CustomerListPage: Page "Customer List";
         Customer: Record Customer;
         Abonnement: Record "LD Abonnementen";
-        MessageText: Text;
     begin
         CustomerListPage.LookupMode(true);
         If CustomerListPage.RunModal() = Action::LookupOK then begin
@@ -85,18 +97,19 @@ table 50102 "LD Loan Header"
                 LoanHeaderPage.Run();
             end
             else begin
-                Abonnement.Reset();
-                Abonnement.SetRange(Customernr, Customer."No.");
-                if Abonnement.FindFirst() then begin
-                    if Abonnement.einddatum < WorkDate() then
-                        MessageText := 'Klant: ' + Format(customer.Name) + ' abonnement is vervallen wile je een abonnement verlengen?'
-                    else
-                        MessageText := 'Klant: ' + Format(Customer.Name) + ' abonnement zal vervallen voor het einde van de huurtermijn, wil je abonnement verlengen?';
-                end
-                else
-                    MessageText := 'Klant: ' + Format(customer.Name) + ' abonnement bestaat niet wil je abonnement aanmaken?';
-                If Confirm(MessageText, true) then
-                    CreateAbboOrder(Customer."No.");
+                CheckAbbo(Customer);
+                /* Abonnement.Reset();
+                 Abonnement.SetRange(Customernr, Customer."No.");
+                 if Abonnement.FindFirst() then begin
+                     if Abonnement.einddatum < WorkDate() then
+                         MessageText := 'Klant: ' + Format(customer.Name) + ' abonnement is vervallen wile je een abonnement verlengen?'
+                     else
+                         MessageText := 'Klant: ' + Format(Customer.Name) + ' abonnement zal vervallen voor het einde van de huurtermijn, wil je abonnement verlengen?';
+                 end
+                 else
+                     MessageText := 'Klant: ' + Format(customer.Name) + ' abonnement bestaat niet wil je abonnement aanmaken?';
+                 If Confirm(MessageText, true) then
+                     CreateAbboOrder(Customer."No.");*/
             end;
         end
         else

@@ -22,6 +22,7 @@ page 50104 "LD Loan Lines List Part"
                 field(serienummer; serienummer)
                 {
                     ApplicationArea = all;
+                    ShowMandatory = true;
                 }
                 field(Returned; Returned)
                 {

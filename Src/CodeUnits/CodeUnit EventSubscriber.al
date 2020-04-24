@@ -68,24 +68,6 @@ codeunit 50100 EventSubscriber
         end
     end;
 
-
-    /*
-        Local procedure UpdateItem(WarehouseActivityLine: Record "Warehouse Activity Line")
-        var
-            Item: Record Item;
-        begin
-            Item.Reset();
-            Item.SetRange("No.", WarehouseActivityLine."Item No.");
-            Item.FindFirst();
-            Item.CalcFields(Loaned);
-            Item.CalcFields(Inventory);
-            Message('Controle Available nieuw Item, Loand: ' + Format(Item.Loaned) + ' en Inventory' + Format(Item.Inventory));
-            if item.Loaned < item.Inventory then
-                Item.available := true else
-                Item.available := false;
-            Item.Modify();
-        end;
-    */
     [EventSubscriber(ObjectType::Page, Page::"Item Card", 'OnAfterGetCurrRecordEvent', '', true, true)]
     local procedure CheckAvailable(var rec: Record Item)
     begin

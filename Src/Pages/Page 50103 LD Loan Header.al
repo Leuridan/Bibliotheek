@@ -1,7 +1,7 @@
 page 50103 "LD Loan Header"
 {
     Caption = 'Loan Header';
-    PageType = Card;
+    PageType = Document;
     UsageCategory = None;
     SourceTable = "LD Loan Header";
     InsertAllowed = false;
@@ -49,6 +49,7 @@ page 50103 "LD Loan Header"
                     SubPageLink = Loannr = field(Loannr);
                     ApplicationArea = all;
                     Editable = true;
+                    UpdatePropagation = Both;
                 }
             }
         }
@@ -97,9 +98,13 @@ page 50103 "LD Loan Header"
     }
     local procedure PrintDocument()
     var
+        loanheader: Record "LD Loan Header";
         Uitleendocument: Report "LD Uitleendocument";
     begin
-        Uitleendocument.SetTableView(rec);
+        loanheader.Reset();
+        loanheader.SetRange(loannr, rec.Loannr);
+        loanheader.FindFirst();
+        Uitleendocument.SetTableView(loanheader);
         Uitleendocument.Run();
     end;
 }

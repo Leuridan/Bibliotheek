@@ -20,6 +20,7 @@ table 50103 "LD Loan Lines"
             Caption = 'serienummer';
             DataClassification = SystemMetadata;
             TableRelation = "Serial No. Information"."Serial No." where("Item No." = field(Itemnr), NotAvailable = const(false));
+            NotBlank = true;
         }
         field(4; Returned; Boolean)
         {
